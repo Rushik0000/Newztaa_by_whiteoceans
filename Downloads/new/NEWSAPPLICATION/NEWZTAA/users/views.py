@@ -96,6 +96,7 @@ def index(request):
     user_profile = ProfileSetting.objects.get(user=request.user.id)
     preference = user_profile.Category
     preference_c = user_profile.location
+  
 
  
 
