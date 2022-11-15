@@ -1,0 +1,148 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block content %}
+{% load socialaccount %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    
+    <!--<link rel="stylesheet" href="{% static 'css/main.css' %}">-->
+</head>
+<body>
+
+  {% if user.is_authenticated %}
+ 
+  <div class="sidebar">
+    <!--a href="{% url 'home' %}"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Home</a>
+    <a href="{% url 'home' %}?category=Business"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Business</a>
+    <a href="{% url 'home' %}?category=Technology"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Technology</a>
+    <a href="{% url 'home' %}?category=Entertainment"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Entertainment</a>
+    <a href="{% url 'home' %}?category=Sports"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Sports</a>
+    <a href="{% url 'home' %}?category=Science"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Science</a>
+    <a href="{% url 'home' %}?category=Health"class="btn" style="color: white; background-color: #08378e;"type="submit" id="header-links">Health</a-->
+        <form action="" method="get">
+            <input type="text" name="country" placeholder="Search country"size="15">
+            <!--button type="submit" value="Search">Search</button-->
+            <input type="text" name="category" placeholder="Search category"size="15" >
+            <button type="submit" value="Search">Search</button>
+
+        </form>
+        <br>
+        <br>
+        &nbsp;
+        &nbsp;
+
+        <!--h2>Search Category</h2-->
+
+        <!--form action="" method="get">
+        </form-->
+    
+</div>  
+
+<style>
+.sidebar{
+    position: fixed;
+    width: 90px;
+    height: 100%;
+    top: 160px;
+    left: 0px;
+}
+.sidebar a{
+    width: 120px;
+    display: block;
+    margin: 15px 0px;
+    padding: 10px 5px;
+    font-weight: bolder;
+    font-size: large;
+    text-decoration: none;
+    background-color: #d9e4ffc7;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: 0px 0.5px 1px grey;
+    text-align: center;
+}
+</style>
+    <div class="container" id="articles-container">
+            <div class="row g-0">
+                <!--div class="col-sm-6 col-md-8" id="header-text"-->
+                    <section class="section">
+                        <div class="container">
+                           <div class="rows">
+                            <div class="coloum is-offset-16 is-10">
+                                {% for title, description,url,i in mylist %}
+                                <div class="box">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <span class="title">{{ title }}</span>
+                                                    <br>
+                                                    <img src="{{url}}" alt="" width="500">
+                                                    <br>
+                                                    <span class="subtitle">{{description}}</span>
+                                                    <!--small>date: {{ i.publishedAt }}</small-->
+                                                    <a href="{{i}}" target="_blank" class="btn btn-success m-1">See News</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                {% endfor %}
+                            </div>
+                           <!--/div--> 
+                        </div>
+                
+                    </section>  
+                    <!--<footer class="footer">contact us  </footer> -->
+                
+                
+                  <!--<h1 id="header-h1">Multi-regulated <br> global broker. </h1>-->
+                  {% else %}
+                <div>
+                <figure><img src="{% static 'images/home.png' %}" alt="" width="1100" height="500" ></figure>
+                </div>
+                {% endif %}
+
+                  
+                </div>
+
+                <!--<div class="col-6 col-md-4" id="header-image"><img src="images/facebook_cover_photo_1.png " alt=""></div>-->
+              </div>
+    </div>
+    <style>
+        #articles-container{
+            margin-left: 130px;
+        }
+        .box{
+            transition-property: box-shadow, transform;
+            transition-duration: 1s;
+        }
+        .box:hover{
+            box-shadow: 2px 4px 16px 0px #00bcffb0;
+            transform: translateY(-9px);
+        }
+        .img-box{
+            padding: 20px;
+        }
+        .img-box img{
+            border-radius: 15px;
+            object-fit: cover;
+        }
+        #loading{
+            text-align: center;
+            display: none;
+        }
+        </style>
+  </body>
+ 
+    </html>
+    {% endblock content %}

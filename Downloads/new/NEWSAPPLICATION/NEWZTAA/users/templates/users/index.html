@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+</head>
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    what's the News?
+                </h1>
+            </div>
+        </div>
+    </section>>
+    <section class="section">
+        <div class="container">
+           <div class="rows">
+            <div class="coloum is-offset-16 is-10">
+                {% for title, description, i in mylist %}
+                <div class="box">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <span class="title">{{ title }}</span>
+                                    <br>
+                                    <img src="{{i}}" alt="" >
+                                    <br>
+                                    <span class="subtitle">{{description}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+           </div> 
+        </div>
+
+    </section>  
+    <footer class="footer">contact us  </footer> 
+</body>
+</html>
