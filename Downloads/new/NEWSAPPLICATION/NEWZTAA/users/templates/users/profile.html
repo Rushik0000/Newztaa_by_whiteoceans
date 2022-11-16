@@ -1,11 +1,24 @@
+{% extends 'base.html' %}
 
-{% extends 'users/base.html' %}
-{% load crispy_forms_tags %}
-
-
-{% block content %}
-    <div class="container">
-        <h2>{{user.username}}</h2>
-    <h2>{{user.email}}</h2>
-    </div>
+{% block title%}
+my profile
 {% endblock %}
+
+{% block content%}
+<h1>PROFILE OF: {{profile.user}}</h1>
+{% for friend in profile.get_friends  %}
+{{friend}}
+<br>
+{%endfor%}
+Friends count : {{profile.get_friends_no}}
+</br>
+</br>
+</br>
+<form action="{% url 'allprofileview' %}" method="get">
+    {% csrf_token %}
+    <input type="hidden" >
+    <button type="submit" class = "ui negative basic button"><i class ="minus square icon"></i>See all users</button>
+</form>
+{% endblock %}
+
+
