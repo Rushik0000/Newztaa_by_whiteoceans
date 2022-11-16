@@ -8,6 +8,7 @@ from django.forms import PasswordInput
 from django.contrib.auth.models import User,auth
 from . models import ProfileSetting
 import profile
+from django.db.models import Q
 #API_KEY='6bb8ca8426ee4ae3b16be1246f0e2934'
 API_KEY='d0b69496c18e463f888a273cb521ea9f'
 
