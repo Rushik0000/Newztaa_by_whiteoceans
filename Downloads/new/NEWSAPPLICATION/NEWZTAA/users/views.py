@@ -281,3 +281,8 @@ class ProfileListView(ListView):
         if len(self.get_queryset()) == 0:
             context["is_empty"]=True
         return context
+
+def send_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        user = request.user
