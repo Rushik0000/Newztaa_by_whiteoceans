@@ -274,3 +274,10 @@ def accept_invitation(request):
             rel.status = 'accepted'
             rel.save()
     return redirect('myinvites' )
+
+def invite_profile_list_view(request):
+    user = request.user
+    qs = Profile.objects.get_all_profiles_to_invite(user)
+
+    context = {'qs':qs}
+    return render(request, 'all_profile_to_invite.html', context )
