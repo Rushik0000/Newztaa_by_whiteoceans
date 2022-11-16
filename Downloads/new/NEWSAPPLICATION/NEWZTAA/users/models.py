@@ -16,8 +16,13 @@ class ProfileSetting(models.Model):
     profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     location = models.CharField(max_length=100, blank=True)
     Category = models.CharField(max_length=100, blank=True)
-
+    dict_str = {'username':user, 'Category':Category,'location':location}
     def __str__(self):
-        return self.user.username
+        return str(self.user.id) + self.Category +self.location
+    
+    #def send_location(self):
+        #return str(self.location)
+    #def send_catagory(self):
+        #return str(self.Category)
 
 

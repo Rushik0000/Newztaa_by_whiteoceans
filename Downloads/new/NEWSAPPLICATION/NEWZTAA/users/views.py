@@ -93,14 +93,13 @@ def profile(request):
 def index(request):
     country = request.GET.get('country')
     category = request.GET.get('category')
-    user_profile = ProfileSetting.objects.get(user=request.user.id)
-    preference = user_profile.Category
-    preference_c = user_profile.location
-  
-
- 
-
-
+    # user_profile = ProfileSetting.objects.get(user = request.user.id)
+    # preference = user_profile.Category
+    # preference_c = user_profile.location
+    # print(preference)
+    # print(preference_c)
+    
+   
     if country and category:
         url = f'https://newsapi.org/v2/top-headlines?country={country}&category={category}&apiKey={API_KEY}'
         cr_news= requests.get(url).json()
@@ -109,10 +108,10 @@ def index(request):
         url = f'https://newsapi.org/v2/top-headlines?category={category}&apiKey={API_KEY}'
         cr_news= requests.get(url).json()
         a = cr_news['articles']
-    elif preference or preference_c:
-        url = f'https://newsapi.org/v2/top-headlines?category={preference}&country={preference_c}&apiKey={API_KEY}'
-        cr_news= requests.get(url).json()
-        a = cr_news['articles']
+    # elif preference or preference_c:
+    #     url = f'https://newsapi.org/v2/top-headlines?category={preference}&country={preference_c}&apiKey={API_KEY}'
+    #     cr_news= requests.get(url).json()
+    #     a = cr_news['articles']
     elif country:
          url = f'https://newsapi.org/v2/top-headlines?country={country}&apiKey={API_KEY}'
          cr_news= requests.get(url).json()
