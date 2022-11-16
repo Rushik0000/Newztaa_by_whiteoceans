@@ -41,6 +41,18 @@ urlpatterns = [
     path('logout', LogoutView.as_view()),
     path('oauth/', include('social_django.urls', namespace='social')),
 
+   
+    # path('searchnews',views.searchnews, name = 'searchnews'),
+    path('myprofile',views.my_profile, name='myprofile'),
+    path('myinvites',views.invite_received_view, name = 'myinvites'),
+    path('allprofiles/',views.ProfileListView.as_view(),name = 'allprofileview'),
+    path('toinvitelist', views.invite_profile_list_view,name = 'toinvitelist'),
+    path('sendinvite', views.send_invitation,name = 'sendinvite'),
+    path('removefriend', views.remove_friends,name = 'removefriend'),
+    path('myinvites/accept',views.accept_invitation, name = 'accept_invite'),
+    path('myinvites/reject',views.reject_invitation, name = 'reject_invite'),
+
+
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,
