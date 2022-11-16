@@ -262,3 +262,15 @@ def invite_received_view(request):
         'qs':result}
     print(context)
     return render(request, 'myinvites.html', context )
+
+
+def accept_invitation(request):
+    if request.method == "POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk = pk)
+        receiver = Profile.objects.get(user = request.user)
+        rel = get_object_or_404(Relationship, sender = sender, receiver = receiver)
+        if rel.status == 'send':
+            rel.status = 'accepted'
+            rel.save()
+    return redirect('myinvites' )
