@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 import requests
 from django.forms import PasswordInput
 from django.contrib.auth.models import User,auth
-from . models import ProfileSetting
+from . models import ProfileSetting,Profile
 import profile
 #API_KEY='6bb8ca8426ee4ae3b16be1246f0e2934'
 API_KEY='d0b69496c18e463f888a273cb521ea9f'
@@ -250,3 +250,15 @@ def my_profile(request):
     profile = Profile.objects.get(user=request.user)
     context = {'profile':profile}
     return render(request,'profile.html',context)
+
+def invite_received_view(request):
+    profile = Profile.objects.get(user=request.user)
+    qs = Relationship.objects.invitations_received(profile)
+    result = list(map(lambda x: x.sender, qs)) 
+    is_empty = False
+    if len(result) == 0:
+        is_empty = True
+    context = {'is_empty':is_empty,
+        'qs':result}
+    print(context)
+    return render(request, 'myinvites.html', context )
