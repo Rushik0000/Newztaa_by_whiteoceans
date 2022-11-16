@@ -246,3 +246,9 @@ def register(request):
     else:
         return render(request, 'users/signup.html')         
 
+def profile_list_view(request):
+    user = request.user
+    qs = Profile.objects.get_all_profiles(user)
+
+    context = {'qs':qs}
+    return render(request, 'all_profile.html', context )
