@@ -96,42 +96,63 @@ def index(request):
     user_profile = ProfileSetting.objects.get(user=request.user.id)
     preference = user_profile.Category
     preference_c = user_profile.location
-  
+    Query=request.GET.get('Query')
+
+    location_dict={"India":"in","Canada":"ca","Australia":"au","Greece":"gr","Netherland":"nl",
+    "United states":"us","France":"fr","Germany":"de","Japan":"jp","Ireland":"ie","Russia":"ru","Ukraine":"ua","UAE":"ae","United kingdom":"uk"}
+    
+   
 
  
 
-
     if country and category:
-        url = f'https://newsapi.org/v2/top-headlines?country={country}&category={category}&apiKey={API_KEY}'
+        url = f'https://newsapi.org/v2/top-headlines?country={location_dict.get(country)}&category={category}&apiKey={API_KEY}'
+        cr_news= requests.get(url).json()
+        a = cr_news['articles']
+    # elif country and category:
+    #     url = f'https://newsapi.org/v2/top-headlines?country={location_dict[country]}&category={category}&apiKey={API_KEY}'
+    #     cr_news= requests.get(url).json()
+    #     a = cr_news['articles']
+    # elif country and Query:
+    #     url = f'https://newsapi.org/v2/top-headlines?q={Query}&country={location_dict[country]}&apiKey={API_KEY}'
+    #     cr_news= requests.get(url).json()
+    #     a = cr_news['articles']
+    # elif category and Query:
+    #     url = f'https://newsapi.org/v2/top-headlines?q={Query}&category={category}&apiKey={API_KEY}'
+    #     cr_news= requests.get(url).json()
+    #     a = cr_news['articles']
+    elif Query:
+        url = f'https://newsapi.org/v2/top-headlines?q={Query}&apiKey={API_KEY}'
         cr_news= requests.get(url).json()
         a = cr_news['articles']
     elif category:
         url = f'https://newsapi.org/v2/top-headlines?category={category}&apiKey={API_KEY}'
         cr_news= requests.get(url).json()
         a = cr_news['articles']
-    elif preference or preference_c:
-        url = f'https://newsapi.org/v2/top-headlines?category={preference}&country={preference_c}&apiKey={API_KEY}'
-        cr_news= requests.get(url).json()
-        a = cr_news['articles']
     elif country:
-         url = f'https://newsapi.org/v2/top-headlines?country={country}&apiKey={API_KEY}'
+         url = f'https://newsapi.org/v2/top-headlines?country={location_dict.get(country)}&apiKey={API_KEY}'
          cr_news= requests.get(url).json()
          a = cr_news['articles'] 
+    elif preference and preference_c:
+        url = f'https://newsapi.org/v2/top-headlines?category={preference}&country={location_dict.get(preference_c)}&apiKey={API_KEY}'
+        cr_news= requests.get(url).json()
+        a = cr_news['articles']
+    elif preference:
+        url = f'https://newsapi.org/v2/top-headlines?category={preference}&apiKey={API_KEY}'
+        cr_news= requests.get(url).json()
+        a = cr_news['articles']
+    elif preference_c:
+        url = f'https://newsapi.org/v2/top-headlines?country={location_dict.get(preference_c)}&apiKey={API_KEY}'
+        cr_news= requests.get(url).json()
+        a = cr_news['articles'] 
     else:
         url="https://newsapi.org/v2/everything?q=Top&from=2022-11-10&sortBy=popularity&apiKey=6bb8ca8426ee4ae3b16be1246f0e2934"
         cr_news= requests.get(url).json()
         a=cr_news['articles']
-
-
-    # url="https://newsapi.org/v2/everything?q=Top&from=2022-11-10&sortBy=popularity&apiKey=6bb8ca8426ee4ae3b16be1246f0e2934"
-
     description=[]
     img=[]
     title=[]
     url=[]
-    # author=[]
-    # publishat=[]
-    # name=[]
 
     for i in range(len(a)):
         f=a[i]
@@ -139,43 +160,38 @@ def index(request):
         description.append(f['description'])
         img.append(f['urlToImage'])
         url.append(f['url'])
-    #     author.append(f['author'])
-    #     publishat.append(f['publishedAt'])
-    #     name.append(f['source.name'])
-        
 
     listofnews=zip(title,description,img,url)
     context = {'mylist':listofnews}
     return render(request,'users/home.html',context)
+@login_required
+def profile(request, pk):
+    user_object = User.objects.get(username=pk)
+    user_profile = ProfileSetting.objects.get(user=user_object)
 
 
-# def settings(request):
+    follower = request.user.username
+    user = pk
 
-#     user_profile = Profile.objects.get(user=request.user)
+    # if FollowersCount.objects.filter(follower=follower, user=user).first():
+    #     button_text = 'Unfollow'
+    # else:
+    #     button_text = 'Follow'
 
-#     if request.method == 'POST':
-        
-#         if request.FILES.get('image') == None:
-#             image = user_profile.profileimg
-#             bio = request.POST['bio']
-#             location = request.POST['location']
+    # user_followers = len(FollowersCount.objects.filter(user=pk))
+    # user_following = len(FollowersCount.objects.filter(follower=pk))
 
-#             user_profile.profileimg = image
-#             user_profile.bio = bio
-#             user_profile.location = location
-#             user_profile.save()
-#         if request.FILES.get('image') != None:
-#             image = request.FILES.get('image')
-#             bio = request.POST['bio']
-#             location = request.POST['location']
+    context = {
+        'user_object': user_object,
+        'user_profile': user_profile,
 
-#             user_profile.profileimg = image
-#             user_profile.bio = bio
-#             user_profile.location = location
-#             user_profile.save()
-        
-#         return redirect('settings')
-#     return render(request, 'users/setting.html', {'user_profile':user_profile})
+        # 'button_text': button_text,
+        # 'user_followers': user_followers,
+        # 'user_following': user_following,
+    }
+    return render(request, 'users/profile.html', context)
+
+
 
 
 def settings(request):

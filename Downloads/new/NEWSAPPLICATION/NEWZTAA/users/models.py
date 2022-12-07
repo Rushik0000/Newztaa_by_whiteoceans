@@ -20,4 +20,9 @@ class ProfileSetting(models.Model):
     def __str__(self):
         return self.user.username
 
+class LikeNews(models.Model):
+    username = models.CharField(max_length=100)
+    no_of_likes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.username
