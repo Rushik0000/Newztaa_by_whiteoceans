@@ -89,7 +89,7 @@ def home(request):
 def profile(request):
     return render(request, 'users/profile.html')
 
- 
+@login_required
 def index(request):
     country = request.GET.get('country')
     category = request.GET.get('category')
