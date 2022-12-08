@@ -9,6 +9,9 @@ from django.contrib.auth.models import User,auth
 from . models import ProfileSetting
 import profile
 from django.db.models import Q
+from django.contrib.auth.models import User,auth
+from . models import FollowersCount, ProfileSetting,LikeNews
+
 #API_KEY='6bb8ca8426ee4ae3b16be1246f0e2934'
 API_KEY='d0b69496c18e463f888a273cb521ea9f'
 
@@ -293,3 +296,27 @@ def send_invitation(request):
         rel = Relationship.objects.create(sender = sender, receiver= receiver , status= 'send')
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('news:myprofile' )
+
+    @login_required
+def search(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = ProfileSetting.objects.get(user=user_object)
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        username_object = User.objects.filter(username = username)
+        print(username_object)
+        username_profile = []
+        username_profile_list = []
+
+        for users in username_object:
+            username_profile.append(users.id)
+        print(username_profile)
+
+        for ids in username_profile:
+            profile_lists = ProfileSetting.objects.filter(id_user=ids)
+            username_profile_list.append(profile_lists)
+        print(username_profile_list)
+        
+        username_profile_list = list(chain(*username_profile_list))
+    return render(request, 'users/search.html', {'user_profile': user_profile, 'username_profile_list': username_profile_list})
