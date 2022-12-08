@@ -9,7 +9,9 @@ urlpatterns = [
     path('settings', views.settings, name='settings'),
     path('signup/', views.register, name='signup'),
     path('settings', views.settings, name = 'settings'),
-
+    path('like-news', views.like_news, name = 'like-news'),
+    path('search', views.search, name='search'),
+    path('follow', views.follow, name = 'follow'),
     path('profile/', views.profile, name='profile'),
     path('login/', auth_view.LoginView.as_view(template_name='users/login.html'), name="login"),
     path('logout/', auth_view.LogoutView.as_view(template_name='users/logout.html'), name="logout"),  
