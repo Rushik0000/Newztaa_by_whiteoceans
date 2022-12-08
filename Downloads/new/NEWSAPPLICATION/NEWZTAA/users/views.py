@@ -262,3 +262,22 @@ def register(request):
     else:
         return render(request, 'users/signup.html')         
 
+def like_news(request):
+    username = request.user.username
+    # news_id = request.GET.get('news_id')
+
+    # news = LikeNews.objects.get(id=news_id)
+
+    like_filter = LikeNews.objects.filter(username=username)
+
+    if like_filter == None:
+        new_like = LikeNews.objects.create(username=username)
+        new_like.save()
+        # news.no_of_likes = news.no_of_likes+1
+        # news.save()
+        return redirect('/')
+    else:
+        like_filter.delete()
+        # news.no_of_likes = news.no_of_likes-1
+        # news.save()
+        return redirect('/')
